@@ -1,0 +1,24 @@
+{
+    "name": "wordle",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node Backend/server.js",
+        "develop": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+        "install": "cd backend && npm i && cd ../frontend && npm i",
+        "seed": "cd backend && npm run seed",
+        "build": "cd frontend && npm run build",
+        "render-build": "npm install && npm run build"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@apollo/server": "^4.11.2",
+        "concurrently": "^9.0.1",
+        "jwt-decode": "^4.0.0",
+        "nodemon": "^3.1.7",
+        "vite": "^5.4.10"
+    }
+}
