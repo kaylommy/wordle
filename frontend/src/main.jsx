@@ -3,8 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from './App.jsx';
 import WelcomePage from './pages/welcomePage.jsx';
-// import Login from './pages/loginPage.jsx';
-// import SignUp from './pages/signupPage.jsx';
+import LoginPage from './pages/loginPage.jsx';
+import SignUpPage from './pages/signupPage.jsx';
 import GamePage from './pages/gamePage.jsx';
 
 const router = createBrowserRouter([
@@ -21,14 +21,14 @@ const router = createBrowserRouter([
           path: "gamePage",
           element: <GamePage />
         },
-        // {
-        //   path: "login",
-        //   element: <Login />
-        // },
-        // {
-        //   path: "signup",
-        //   element: <SignUp />
-        // },
+        {
+          path: "login",
+          element: <LoginPage />
+        },
+        {
+          path: "signup",
+          element: <SignUpPage />
+        },
         // {
         //  path: "",
         //  element: </>
