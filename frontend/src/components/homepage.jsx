@@ -6,7 +6,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   const handleStartGame = () => {
-    // navigate('/game'); // Navigate to the game page
+    navigate('/gamePage'); // Navigate to the game page
   };
 
   const handleLoginClick = () => {
@@ -23,10 +23,10 @@ const Homepage = () => {
           <Typography variant="body1" gutterBottom>
             Guess the hidden word in 6 tries. Each guess must be a valid 5-letter word. Hit the enter button to submit. After each guess, the color of the tiles will change to show how close your guess was to the word.
           </Typography>
-          <Button variant="contained" color="primary" onClick={handleStartGame} sx={{ marginTop: '20px', width: '8rem' }}>
+          <Button variant="contained" color="primary" onClick={handleLoginClick} sx={{ marginTop: '20px', width: '8rem' }}>
             Login
           </Button>
-          <Button variant="contained" color="primary" onClick={handleLoginClick} sx={{ marginTop: '20px', width: '8rem', marginLeft: '4rem' }}>
+          <Button variant="contained" color="primary" onClick={handleStartGame} sx={{ marginTop: '20px', width: '8rem', marginLeft: '4rem' }}>
             Start Game
           </Button>
         </Box>
