@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations';
+import Auth from '../utils/auth';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [addUser] = useMutation(ADD_USER);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -19,15 +23,32 @@ const Signup = () => {
     setConfirmPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Check if passwords match
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
-    // Handle signup logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+
+    try {
+      const { data } = await addUser({
+        variables: {
+          email,
+          password,
+        },
+      });
+
+      Auth.login(data.addUser.token);
+
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    } catch (err) {
+      console.error('Error adding user:', err);
+      alert('Error creating account');
+    }
   };
 
   return (

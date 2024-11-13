@@ -1,24 +1,43 @@
 import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import Auth from '../utils/auth';
+import { LOGIN_USER } from '../utils/mutations';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login] = useMutation(LOGIN_USER);
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
-  };
+    console.log(formState);
+    try {
+    const { data } = await login({
+      variables: { ...formState },
+    });
+
+    Auth.login(data.login.token);
+  } catch (e) {
+    console.error(e);
+    setErrorMessage('Incorrect username or password!');
+  }
+
+  // clear form values
+  setFormState({
+    username: '',
+    password: '',
+  });
+};
 
   return (
     <>
@@ -53,16 +72,16 @@ const Login = () => {
           <TextField
             label="Email"
             type="email"
-            value={email}
-            onChange={handleEmailChange}
+            value={formState.email}
+            onChange={handleChange}
             sx={{ marginBottom: '10px', width: '300px' }}
             required
           />
           <TextField
             label="Password"
             type="password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={formState.password}
+            onChange={handleChange}
             sx={{ marginBottom: '20px', width: '300px' }}
             required
           />
