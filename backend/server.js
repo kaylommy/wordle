@@ -7,12 +7,32 @@ require('dotenv').config();
 const cors = require('cors');
 const { typeDefs, resolvers } = require("./schema");
 const db = require("./config/connection");
+const words = require("./words.json");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+});
+
+let wordOfTheDay = '';
+let dateSet = '';
+
+const generateWordOfTheDay = () => {
+  const randomIndex = Math.floor(Math.random() * words.length);
+  wordOfTheDay = words[randomIndex];
+  dateSet = new Date().toISOString().split('T')[0]; // Store today's date
+};
+
+app.get('/api/word-of-the-day', (req, res) => {
+  const today = new Date().toISOString().split('T')[0]; // Get today's date
+
+  if (dateSet !== today) {
+    generateWordOfTheDay(); // Generate a new word if a new day has started
+  }
+
+  res.json({ word: wordOfTheDay }); // Send the word of the day
 });
 
 const startApolloServer = async () => {
